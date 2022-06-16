@@ -4,7 +4,7 @@ const createComment = async (req, res) => {
 	try {
 		const newComment = Comment.create({
 			content: req.body.content,
-			author: req.body.author_id,
+			author: req.headers.user_id,
 			post: req.body.post_id,
 		});
 

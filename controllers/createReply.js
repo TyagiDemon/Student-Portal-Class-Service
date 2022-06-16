@@ -4,7 +4,7 @@ const createReply = async (req, res) => {
 	try {
 		const newReply = Reply.create({
 			content: req.body.content,
-			author: req.body.author_id,
+			author: req.headers.user_id,
 			comment: req.body.comment_id,
 		});
 

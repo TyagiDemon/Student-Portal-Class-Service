@@ -1,12 +1,11 @@
-const Class = require("../models/Class.js");
+const Class = require("../models/Class");
 
 const createClass = async (req, res) => {
 	try {
-		const newClass = Class.create({
+		const newClass = new Class({
 			name: req.body.name,
-			admin: req.body.id,
+			admin: req.headers.user_id,
 		});
-
 		await newClass.save();
 		res.status(201).json({
 			success: true,

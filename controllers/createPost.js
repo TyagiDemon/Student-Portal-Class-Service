@@ -5,7 +5,7 @@ const createPost = async (req, res) => {
 		const newPost = Post.create({
 			title: req.body.title,
 			content: req.body.content,
-			author: req.body.author_id,
+			author: req.headers.user_id,
 			class: req.body.class_id,
 		});
 

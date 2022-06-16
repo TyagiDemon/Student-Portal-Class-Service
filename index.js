@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const mongoose = require("mongoose");
-// const routes = require("./routes/user.js");
+const routes = require("./routes/class.js");
 
 const app = express();
 app.use(cors());
@@ -25,39 +25,40 @@ app.get("/", async (req, res) => {
 	}
 });
 
-// app.use(routes);
+app.use(routes);
 
-const server = app.listen(process.env.PORT || 4000);
+const server = app.listen(process.env.PORT || 5000);
 
 server.on("listening", () => {
 	log.info(`Hi there! I'm listening on port ${server.address().port}`);
 
-	// mongoose.connect(process.env.MONGO_URL, () => {
-	// 	log.info("Connected to MongoDB");
-	// });
+	mongoose.connect(process.env.MONGO_URL, () => {
+		log.info("Connected to MongoDB");
+	});
 
-	// const registerService = () =>
-	// 	axios
-	// 		.put(
-	// 			`https://student-portal-serviceregistry.herokuapp.com/register/${
-	// 				config.name
-	// 			}/${config.version}/${server.address().port}`
-	// 		)
-	// 		.then((res) => log.debug(res.data));
-	// const unregisterService = () =>
-	// 	axios.delete(
-	// 		`https://student-portal-serviceregistry.herokuapp.com/register/${
-	// 			config.name
-	// 		}/${config.version}/${server.address().port}`
-	// 	);
+	const registerService = () =>
+		axios
+			.put(
+				`https://student-portal-serviceregistry.herokuapp.com//register/${
+					config.name
+				}/${config.version}/${server.address().port}`,
+				{ url: process.env.ROOT_URL || "http://localhost:5000" }
+			)
+			.then((res) => log.debug(res.data));
+	const unregisterService = () =>
+		axios.delete(
+			`https://student-portal-serviceregistry.herokuapp.com//register/${
+				config.name
+			}/${config.version}/${server.address().port}`
+		);
 
-	// registerService();
+	registerService();
 
-	// const interval = setInterval(registerService, 240000);
-	// const cleanup = async () => {
-	// 	clearInterval(interval);
-	// 	await unregisterService();
-	// };
+	const interval = setInterval(registerService, 240000);
+	const cleanup = async () => {
+		clearInterval(interval);
+		await unregisterService();
+	};
 
 	process.on("SIGINT", async () => {
 		await cleanup();

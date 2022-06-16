@@ -11,6 +11,8 @@ const classSchema = new Schema(
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 		},
+		members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+		token: String,
 	},
 	{
 		timestamps: true,
