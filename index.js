@@ -39,7 +39,7 @@ server.on("listening", () => {
 	const registerService = () =>
 		axios
 			.put(
-				`https://student-portal-serviceregistry.herokuapp.com//register/${
+				`https://student-portal-serviceregistry.herokuapp.com/register/${
 					config.name
 				}/${config.version}/${server.address().port}`,
 				{ url: process.env.ROOT_URL || "http://localhost:5000" }
@@ -47,7 +47,7 @@ server.on("listening", () => {
 			.then((res) => log.debug(res.data));
 	const unregisterService = () =>
 		axios.delete(
-			`https://student-portal-serviceregistry.herokuapp.com//register/${
+			`https://student-portal-serviceregistry.herokuapp.com/register/${
 				config.name
 			}/${config.version}/${server.address().port}`
 		);
